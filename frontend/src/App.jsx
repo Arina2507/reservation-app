@@ -6,6 +6,7 @@ function App() {
   const [reservations, setReservations] = useState([]);
   const [user, setUser] = useState("");
   const [time, setTime] = useState("");
+  const [error, setError] = useState("");
 
   const API = "http://host.docker.internal:3000";
 
@@ -15,12 +16,27 @@ function App() {
   };
 
   const createReservation = async () => {
-    if (!user || !time) return;
+    try {
+      setError("");
 
-    await axios.post(`${API}/reservations`, { user, time });
-    setUser("");
-    setTime("");
-    loadReservations();
+      if (!user || !time) {
+        setError("Fill all fields");
+        return;
+      }
+
+      await axios.post(`${API}/reservations`, { user, time });
+
+      setUser("");
+      setTime("");
+      loadReservations();
+
+    } catch (e) {
+      if (e.response) {
+        setError(e.response.data);
+      } else {
+        setError("Server error");
+      }
+    }
   };
 
   useEffect(() => {
@@ -31,6 +47,8 @@ function App() {
     <div className="container">
       <div className="card">
         <h2 className="title">Reservation App</h2>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
         <input
           className="input"
