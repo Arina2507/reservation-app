@@ -39,6 +39,11 @@ function App() {
     }
   };
 
+  const deleteReservation = async (index) => {
+  await axios.delete(`${API}/reservations/${index}`);
+  loadReservations();
+  };
+
   useEffect(() => {
     loadReservations();
   }, []);
@@ -73,6 +78,9 @@ function App() {
           <li key={i} className="item">
             <span>{r.user}</span>
             <span>{r.time}</span>
+              <button className="delete" onClick={() => deleteReservation(i)}>
+                ✕
+              </button>
           </li>
         ))}
       </ul>

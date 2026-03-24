@@ -76,3 +76,17 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.delete {
+  background: #ef4444;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete:hover {
+  background: #dc2626;
+}
