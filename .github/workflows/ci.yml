@@ -1,31 +1,41 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
 
 jobs:
-  build-test:
+  build-test-push:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    permissions:
+      contents: read
+      packages: write
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install
         run: npm install
 
-      - name: Run tests with coverage
+      - name: Test
         run: npm test -- --coverage
 
-      - name: Upload coverage report
+      - name: Upload coverage
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage
           path: coverage/
 
-      - name: Build Docker image
-        run: docker build -t reservation-app .
+      - name: Login to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/reservation-app:latest .
+
+      - name: Push image
+        run: docker push ghcr.io/${{ github.repository_owner }}/reservation-app:latest
