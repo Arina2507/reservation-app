@@ -45,6 +45,18 @@ app.get("/reservations", (req, res) => {
   res.json(reservations);
 });
 
+app.delete("/reservations/:index", (req, res) => {
+  const index = parseInt(req.params.index);
+
+  if (index < 0 || index >= reservations.length) {
+    return res.status(404).send("Not found");
+  }
+
+  reservations.splice(index, 1);
+
+  res.sendStatus(204);
+});
+
 if (require.main === module) {
   app.listen(3000, () => {
     console.log("Server running on port 3000");
