@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: reservation-app
-          image: ghcr.io/Arina2507/reservation-app:latest
+          image: ghcr.io/arina2507/reservation-app:latest
           ports:
             - containerPort: 3000
 

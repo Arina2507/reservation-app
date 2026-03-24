@@ -39,7 +39,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build image
-        run: docker build -t ghcr.io/${{ github.repository_owner }}/reservation-app:latest .
+        run: docker build -t ghcr.io/arina2507/reservation-app:latest .
 
       - name: Push image
-        run: docker push ghcr.io/${{ github.repository_owner }}/reservation-app:latest
+        run: docker push ghcr.io/arina2507/reservation-app:latest
