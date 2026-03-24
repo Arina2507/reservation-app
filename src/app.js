@@ -12,6 +12,10 @@ app.post("/reservations", (req, res) => {
     return res.status(400).send("Invalid data");
   }
 
+  if (reservations.find(r => r.time === time)) {
+  return res.status(400).send("Time already reserved");
+  }
+
   reservations.push({ user, time });
 
   res.status(201).json({ user, time });
