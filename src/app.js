@@ -16,6 +16,14 @@ app.post("/reservations", (req, res) => {
   return res.status(400).send("Time already reserved");
   }
 
+  if (reservations.find(r => r.user === user)) {
+    return res.status(400).send("User already has reservation");
+  }
+
+  if (time < "09:00") {
+    return res.status(400).send("Too early");
+  }
+
   reservations.push({ user, time });
 
   res.status(201).json({ user, time });
