@@ -9,16 +9,16 @@ describe("Reservation API", () => {
 
     expect(res.statusCode).toBe(201);
   });
-});
 
-it("should fail on duplicate time", async () => {
-  await request(app)
-    .post("/reservations")
-    .send({ user: "A", time: "10:00" });
+  it("should fail on duplicate time", async () => {
+    await request(app)
+      .post("/reservations")
+      .send({ user: "A", time: "10:00" });
 
-  const res = await request(app)
-    .post("/reservations")
-    .send({ user: "B", time: "10:00" });
+    const res = await request(app)
+      .post("/reservations")
+      .send({ user: "B", time: "10:00" });
 
-  expect(res.statusCode).toBe(400);
+    expect(res.statusCode).toBe(400);
+  });
 });
