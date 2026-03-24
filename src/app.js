@@ -4,9 +4,19 @@ const app = express();
 app.use(express.json());
 
 let reservations = [];
+let users = [];
+let resources = [];
 
 app.post("/reservations", (req, res) => {
   const { user, time } = req.body;
+
+  if (!users.includes(user)) {
+    users.push(user);
+  }
+
+  if (!resources.includes(time)) {
+    resources.push(time);
+  }
 
   if (!user || !time) {
     return res.status(400).send("Invalid data");
