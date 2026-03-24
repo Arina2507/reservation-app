@@ -21,4 +21,12 @@ describe("Reservation API", () => {
 
     expect(res.statusCode).toBe(400);
   });
+
+  it("should fail if data is missing", async () => {
+  const res = await request(app)
+    .post("/reservations")
+    .send({});
+
+  expect(res.statusCode).toBe(400);
+});
 });
