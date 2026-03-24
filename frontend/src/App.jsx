@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./App.css";
 
 function App() {
   const [reservations, setReservations] = useState([]);
   const [user, setUser] = useState("");
   const [time, setTime] = useState("");
 
-  const API = "http://localhost:3000";
+  const API = "http://host.docker.internal:3000";
 
   const loadReservations = async () => {
     const res = await axios.get(`${API}/reservations`);
@@ -14,6 +15,8 @@ function App() {
   };
 
   const createReservation = async () => {
+    if (!user || !time) return;
+
     await axios.post(`${API}/reservations`, { user, time });
     setUser("");
     setTime("");
@@ -25,30 +28,37 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Reservations</h1>
+    <div className="container">
+      <div className="card">
+        <h2 className="title">Reservation App</h2>
 
-      <input
-        placeholder="User"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
-      />
+        <input
+          className="input"
+          placeholder="User"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+        />
 
-      <input
-        placeholder="Time"
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
-      />
+        <input
+          className="input"
+          placeholder="Time (HH:MM)"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+        />
 
-      <button onClick={createReservation}>Create</button>
+        <button className="button" onClick={createReservation}>
+          Create Reservation
+        </button>
 
-      <ul>
+        <ul className="list">
         {reservations.map((r, i) => (
-          <li key={i}>
-            {r.user} - {r.time}
+          <li key={i} className="item">
+            <span>{r.user}</span>
+            <span>{r.time}</span>
           </li>
         ))}
       </ul>
+      </div>
     </div>
   );
 }
