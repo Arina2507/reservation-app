@@ -39,6 +39,10 @@ app.post("/reservations", (req, res) => {
   res.status(201).json({ user, time });
 });
 
+app.get("/reservations", (req, res) => {
+  res.json(reservations);
+});
+
 if (require.main === module) {
   app.listen(3000, () => {
     console.log("Server running on port 3000");

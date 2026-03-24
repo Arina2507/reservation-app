@@ -14,6 +14,25 @@ spec:
     spec:
       containers:
         - name: reservation-app
-          image: reservation-app
+          image: reservation-app-app:latest
           ports:
             - containerPort: 3000
+
+          envFrom:
+            - configMapRef:
+                name: app-config
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+
+          livenessProbe:
+            httpGet:
+              path: /reservations
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
